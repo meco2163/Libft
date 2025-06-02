@@ -12,65 +12,59 @@
 
 #include "libft.h"
 
-static int	ft_lennmb(int n, int sign)
+static size_t	ft_itoa_len(long num)
 {
-	int	i;
+	size_t	len;
 
-	i = 0;
-	if (n == 0)
-		i = 1;
-	while (n != 0)
+	len = 0;
+	if (num == 0)
+		return (1);
+	if (num < 0)
 	{
-		i++;
-		n = n / 10;
+		len++;
+		num = -num;
 	}
-	if (sign < 0)
-		i++;
-	return (i);
+	while (num >= 1)
+	{
+		len++;
+		num /= 10;
+	}
+	return (len);
 }
 
-char	*ft_itoa(int n)
+static char	*ft_num_to_str(long num, char *str, size_t len)
 {
-	char	*str
-	long	nmb;
-	int	sign;
-	int	lennmb;
-
-	nmb = n;
-	sign = 1;
-	if (nmb < 0)
-		sign = -1;
-	nmb = sign * nmb;
-	lennmb = ft_lenmb(nmb, sign);
-	str = (char *)malloc(sizeof(char) * lenmb + 1);
-	if (!str)
-		i++;
-	return (i);
-}
-
-char	*ft_itoa(int n)
-{
-	char	*str;
-	long	nmb;
-	int	sign;
-	int	lennmb;
-
-	nmb = n;
-	sign = 1;
-	if (nmb < 0)
-		sign = -1;
-	nmb = sign = -1;
-	lennmb = ft_lennmb(nmb, sign);
-	str = (char *)malloc(sizeıf(char) * lennmb + 1);
-	if (!str)
-		return (0);
-	str[lennmb] = '\0';
-	while (--lennmb >= 0)
+	str = ft_calloc(len + 1, sizeof(char));
+	if (str == NULL)
+		return (NULL);
+	if (num < 0)
 	{
-		str[lennmb] = (nmb % 10) + '0';
-		nmb = nmb / 10;
-	}
-	if (sign == -1)
 		str[0] = '-';
-	return (str);		
+		num = -num;
+	}
+	len--;
+	while (len)
+	{
+		str[len] = (num % 10) + '0';
+		num /= 10;
+		len--;
+	}
+	if (str[0] != '-')
+		str[0] = (num % 10) + '0';
+	return (str);
+}
+
+char	*ft_itoa(int n)
+{
+	long	num;
+	size_t	len;
+	char	*str;
+
+	num = n;
+	len = ft_itoa_len(num);
+	str = 0;
+	str = ft_num_to_str(num, str, len);
+	if (!str)
+		return (NULL);
+	return (str);
 }

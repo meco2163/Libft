@@ -21,7 +21,7 @@ char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 		return (ft_strdup(s));
 	else if (!f)
 		return (ft_strdup(s));
-	str = ft_ ft_strdup(s);
+	str = ft_strdup(s);
 	if (!str)
 		return (NULL);
 	i = 0;

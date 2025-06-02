@@ -9,81 +9,44 @@
 #    Updated: 2025/05/30 13:49:27 by mekaplan         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
+SRCS = ft_isalpha.c ft_isdigit.c ft_isalnum.c ft_isascii.c \
+       ft_isprint.c ft_strlen.c ft_memset.c ft_bzero.c \
+       ft_memcpy.c ft_memmove.c ft_strlcpy.c ft_strlcat.c \
+       ft_calloc.c ft_strdup.c ft_toupper.c ft_tolower.c \
+       ft_strchr.c ft_strncmp.c ft_memchr.c ft_memcmp.c \
+       ft_strnstr.c ft_atoi.c ft_strrchr.c ft_substr.c \
+       ft_strjoin.c ft_strtrim.c ft_split.c ft_itoa.c \
+       ft_strmapi.c ft_striteri.c ft_putchar_fd.c \
+       ft_putstr_fd.c ft_putendl_fd.c ft_putnbr_fd.c
+SRCSB = ft_lstnew_bonus.c ft_lstadd_front_bonus.c \
+	ft_lstsize_bonus.c ft_lstlast_bonus.c \
+	ft_lstadd_back_bonus.c ft_lstdelone_bonus.c \
+	ft_lstclear_bonus.c ft_lstiter_bonus.c \
+	ft_lstmap_bonus.c
+OBJS = ${SRCS:.c=.o}
+OBJSB = ${SRCSB:.c=.o}
+NAME = libft.a
+LIBC = ar rcs
+CC = cc
+RM = rm -f
+CFLAGS = -Wall -Wextra -Werror
 
-Name = libft.a
-cc = gcc
-CFLAGS = -Wall -Werror -Wextra -g3
-AR = ar rcs
-SRC = ft_isalpha \
-	  ft_isdigit \
-	  ft_isalnum \
-	  ft_isascii \
-	  ft_isprint \
-	  ft_strlen \
-	  ft_memset \
-	  ft_bzero \
-	  ft_memcpy \
-	  ft_memmove \
-	  ft_strlcpy \
-	  ft_strlcat \
-	  ft_toupper \
-	  ft_tolower \
-	  ft_strchr \
-	  ft_strrchr \
-	  ft_strncmp \
-	  ft_memchr \
-	  ft_memcmp \
-	  ft_strncmp \
-	  ft_memchr \
-	  ft_memcmp \
-	  ft_strnstr \
-	  ft_atoi \
-	  ft_calloc \
-	  ft_strdup \
-	  ft_substr \
-	  ft_strjoin \
-	  ft_strtrim \
-	  ft_split \
-	  ft_itoa \
-	  ft_strmapi \
-	  ft_striteri \
-	  ft_putchar_fd \
-	  ft_putstr_fd \
-	  ft_putendl_fd \
-	  ft_putnbr_fd \
-BONUS_SRC = ft_lstnew \
-	  ft_lstadd_front \
-	  ft_lstsize \
-	  ft_lstlast \
-	  ft_lstadd_back \
-	  ft_lstdelone \
-	  ft_lstclear \
-	  ft_lstiter \
-	  ft_lstmap
+.c.o:
+	${CC} ${CFLAGS} -c $< -o ${<:.c=.o}
 
-SRCS = $(addsuffix .c, $(SRC))
-OBJS = $(addsuffix .o, $(SRC))
-BONUS_SRCS = $(addsuffix .c, $(BONUS_SRC))
-BONUS_OBJS = $(addsuffix .o, $(BONUS_SRC))
+${NAME}: ${OBJS}
+	${LIBC} ${NAME} ${OBJS}
 
-.c.o: $(SRCS) $(BONUS_SRCS)
-	$(CC) $(CFLAGS) -c -o $@ $<
+all: ${NAME}
 
-$(NAME): $(OBJS)
-	$(AR) $(NAME) $^
-
-bonus: $(OBJS) $(BONUS_OBJS)
-	$(AR) $(NAME) $^
-
-all: $(NAME)
-
+bonus: ${NAME} ${OBJSB}
+	${LIBC} ${NAME} ${OBJSB}
 clean:
-	rm -f *.o
+	${RM} ${OBJS} ${OBJSB}
 
 fclean: clean
-	rm -f $(NAME)
+	${RM} ${NAME} ${bonus} 
 
-re: clean all
+re: fclean all
 
-.PHONY: all clean fclean re bonus
-
+.PHONY : all bonus clean fclean re
