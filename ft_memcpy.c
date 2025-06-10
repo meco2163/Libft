@@ -10,11 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include <stddef.h>
 
 void	*ft_memcpy(void *dst, const void *src, size_t n)
 {
-	char	*dp;
+	char		*dp;
 	const char	*sp;
 
 	if (!dst && !src)

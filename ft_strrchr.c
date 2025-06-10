@@ -14,9 +14,9 @@
 
 char	*ft_strrchr(const char *str, int c)
 {
-	char	*p;
+	char			*p;
 	unsigned char	ch;
-	size_t	offset;
+	size_t			offset;
 
 	ch = c;
 	offset = ft_strlen(str);

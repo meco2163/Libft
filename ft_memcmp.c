@@ -10,13 +10,13 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include <stddef.h>
 
 int	ft_memcmp(const void *s1, const void *s2, size_t n)
 {
 	const char	*str1;
 	const char	*str2;
-	size_t	i;
+	size_t		i;
 
 	if (n == 0)
 		return (0);

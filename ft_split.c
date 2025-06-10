@@ -12,115 +12,49 @@
 
 #include "libft.h"
 
-static int	ft_count_words(const char *s, char c)
+unsigned int	wordcounter(const char *s, char delimiter)
 {
-	int	words;
-	int	i;
+	unsigned int	word;
 
-	words = 0;
-	i = 0;
-	while (s[i])
+	word = 0;
+	while (*s)
 	{
-		if (i == 0 && s[i] != c)
-			words++;
-		if (i > 0 && s[i] != c && s[i - 1] == c)
-			words++;
-		i++;
-	}
-	return (words);
-}
-
-static char	**ft_malloc_strs(char **strs, const char *s, char c)
-{
-	int	count;
-	int	i;
-	int	x;
-
-	count = 0;
-	i = 0;
-	x = 0;
-	while (s[i])
-	{
-		if (s[i] != c)
-			count++;
-		if ((s[i] == c && i > 0 && s[i - 1] != c)
-				|| (s[i] != c && s[i + 1] == '\0'))
+		if (*s == delimiter)
+			s++;
+		else
 		{
-			strs[x] = malloc(sizeof(char) * (count + 1));
-			if (!strs[x])
-				return (NULL);
-			count = 0;
-			x++;
+			while (*s != delimiter && *s)
+				s++;
+			word++;
 		}
-		i++;
 	}
-	return (strs);
+	return (word);
 }
 
-static char	**ft_cpy_strs(char **strs, const char *s, char c)
+char	**ft_split(char const *s, char c)
 {
-	int	i;
-	int	x;
-	int	y;
-
-	i = 0;
-	x = 0;
-	y = 0;
-	while (s[i])
-	{
-		if (s[i] != c)
-			strs[x][y++] = s[i];
-		if (s[i] != c && s[i + 1] == '\0')
-			strs[x][y] = '\0';
-		if (s[i] == c && i > 0 && s[i - 1] != c)
-		{
-			strs[x][y] = '\0';
-			x++;
-			y = 0;
-		}
-		i++;
-	}
-	return (strs);
-}
-
-static char	**ft_merror(char **strs)
-{
-	int	i;
-
-	i = 0;
-	while (strs[i])
-	{
-		free(strs[i]);
-		strs[i] = NULL;
-		i++;
-	}
-	free(strs);
-	return (NULL);
-}
-
-char **ft_split(char const *s, char c)
-{
-	char	**strs;
-	int	wordcount;
+	char			**arr;
+	unsigned int	j;
+	unsigned int	a;
 
 	if (!s)
-	{
-		strs = malloc(sizeof(char) * 1);
-		if (!strs)
-			return (NULL);
-		*strs = NULL;
-		return (strs);
-	}
-	wordcount = ft_count_words(s, c);
-	strs = malloc(sizeof(*strs) * (wordcount + 1));
-	if (!strs)
 		return (NULL);
-	if (ft_malloc_strs(strs, s, c))
+	arr = (char **)ft_calloc(wordcounter(s, c) + 1, sizeof(char *));
+	if (!arr)
+		return (NULL);
+	a = 0;
+	while (*s)
 	{
-		ft_cpy_strs(strs, s, c);
-		strs[wordcount] = NULL;
+		if (*s == c)
+			s++;
+		else
+		{
+			j = 0;
+			while (*s != c && *s && ++j)
+				s++;
+			arr[++a - 1] = (char *)ft_calloc(j + 1, sizeof(char));
+			ft_strlcpy(arr[a - 1], s - j, j + 1);
+		}
 	}
-	else
-		strs = ft_merror(strs);
-	return (strs);
+	return (arr);
 }

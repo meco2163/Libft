@@ -10,61 +10,49 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stddef.h>
 #include "libft.h"
 
-static size_t	ft_itoa_len(long num)
+int	ft_numlen(int num)
 {
-	size_t	len;
+	int	i;
 
-	len = 0;
 	if (num == 0)
 		return (1);
-	if (num < 0)
+	i = 0;
+	while (num > 0 || num < 0)
 	{
-		len++;
-		num = -num;
-	}
-	while (num >= 1)
-	{
-		len++;
 		num /= 10;
+		i++;
 	}
-	return (len);
-}
-
-static char	*ft_num_to_str(long num, char *str, size_t len)
-{
-	str = ft_calloc(len + 1, sizeof(char));
-	if (str == NULL)
-		return (NULL);
-	if (num < 0)
-	{
-		str[0] = '-';
-		num = -num;
-	}
-	len--;
-	while (len)
-	{
-		str[len] = (num % 10) + '0';
-		num /= 10;
-		len--;
-	}
-	if (str[0] != '-')
-		str[0] = (num % 10) + '0';
-	return (str);
+	return (i);
 }
 
 char	*ft_itoa(int n)
 {
-	long	num;
-	size_t	len;
-	char	*str;
+	int		len;
+	char	*ptr;
+	long	nbr;
 
-	num = n;
-	len = ft_itoa_len(num);
-	str = 0;
-	str = ft_num_to_str(num, str, len);
-	if (!str)
+	nbr = n;
+	len = ft_numlen(nbr);
+	if (n < 0)
+	{
+		len++;
+		nbr = -nbr;
+	}
+	ptr = (char *)malloc(sizeof(char) * len + 1);
+	if (!ptr)
 		return (NULL);
-	return (str);
+	ptr[len] = '\0';
+	while (nbr > 0)
+	{
+		ptr[--len] = nbr % 10 + 48;
+		nbr /= 10;
+	}
+	if (n < 0)
+		ptr[0] = '-';
+	if (n == 0)
+		ptr[0] = '0';
+	return (ptr);
 }
