@@ -10,10 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stddef.h>
-#include "libft.h"
+#include <stdlib.h>
 
-int	ft_numlen(int num)
+static int	ft_numlen(int num)
 {
 	int	i;
 

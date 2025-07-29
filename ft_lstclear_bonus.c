@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstclear.c                                      :+:      :+:    :+:   */
+/*   ft_lstclear_bonus.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mekaplan <mekaplan@student.42kocaeli.com.  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 19:58:38 by mekaplan          #+#    #+#             */
-/*   Updated: 2025/05/28 19:58:40 by mekaplan         ###   ########.fr       */
+/*   Updated: 2025/07/06 21:51:57 by mekaplan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,15 @@
 
 void	ft_lstclear(t_list **lst, void (*del)(void *))
 {
-	t_list	*tmp;
+	t_list	*new;
 
-	if (!lst)
+	if (lst == NULL || del == NULL)
 		return ;
-	while (*lst)
+	while (*lst != NULL)
 	{
-		tmp = (*lst)->next;
+		new = (*lst)->next;
 		ft_lstdelone(*lst, del);
-		*lst = tmp;
+		*lst = new;
 	}
 	*lst = NULL;
 }

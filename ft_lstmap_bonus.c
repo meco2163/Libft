@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstmap.c                                        :+:      :+:    :+:   */
+/*   ft_lstmap_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mekaplan <mekaplan@student.42kocaeli.com.  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 20:15:12 by mekaplan          #+#    #+#             */
-/*   Updated: 2025/05/28 20:15:14 by mekaplan         ###   ########.fr       */
+/*   Updated: 2025/07/06 21:53:15 by mekaplan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,26 +14,25 @@
 
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
 {
-	t_list	*newlst;
-	t_list	*node;
+	t_list	*new;
+	t_list	*begin;
+	void	*content;
 
-	if (!lst)
+	if (lst == NULL || f == NULL || del == NULL)
 		return (NULL);
-	newlst = NULL;
-	node = NULL;
+	begin = NULL;
 	while (lst)
 	{
-		if (!f)
-			node = ft_lstnew(lst->content);
-		else
-			node = ft_lstnew(f(lst->content));
-		if (!node)
+		content = (*f)(lst->content);
+		new = ft_lstnew(content);
+		if (!new)
 		{
-			ft_lstclear(&newlst, del);
+			(*del)(content);
+			ft_lstclear(&begin, del);
 			return (NULL);
 		}
-		ft_lstadd_back(&newlst, node);
+		ft_lstadd_back(&begin, new);
 		lst = lst->next;
 	}
-	return (newlst);
+	return (begin);
 }
